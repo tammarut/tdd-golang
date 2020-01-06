@@ -1,5 +1,8 @@
 package iteration
 
-func repeat(char string) string {
-	return char + char + char + char + char
+func repeat(char string) (repeated string) {
+	for i := 0; i<5; i++{
+		repeated += char
+	}
+	return repeated
 }
