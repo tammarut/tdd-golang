@@ -1,5 +1,8 @@
 package methodstruct
 
+type Shape interface {
+	area() float64
+}
 type rectangle struct {
 	Width  float64
 	Height float64
