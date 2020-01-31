@@ -1,5 +1,5 @@
 package maps
 
-func Search(dict map[string]string, key string) string {
-	return "this is just a test"
+func Search(dictionary map[string]string, word string) string {
+	return dictionary[word]
 }
