@@ -50,3 +50,7 @@ func (dic Dictionary) Update(word, definition string) error {
 
 	return nil
 }
+
+func (dic Dictionary) Delete(word string) {
+	delete(dic, word)
+}
