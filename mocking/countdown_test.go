@@ -4,23 +4,44 @@ import "testing"
 
 import "bytes"
 
+import "reflect"
+
 func TestCountdown(t *testing.T) {
-	buffer := &bytes.Buffer{}
-	spySleeper := &SpySleeper{}
+	t.Run("prints 3 to Go!", func(t *testing.T) {
 
-	Countdown(buffer, spySleeper)
+		buffer := &bytes.Buffer{}
+		spySleeper := &SpySleeper{}
 
-	got := buffer.String()
-	want := `3
+		Countdown(buffer, spySleeper)
+
+		got := buffer.String()
+		want := `3
 2
 1
 Go!`
 
-	if got != want {
-		t.Errorf("got %q but want %q", got, want)
-	}
+		if got != want {
+			t.Errorf("got %q but want %q", got, want)
+		}
+	})
 
-	if spySleeper.Calls != 4 {
-		t.Errorf("not enough calls to sleeper, want 4 but got %d", spySleeper.Calls)
-	}
+	t.Run("sleep before every print", func(t *testing.T) {
+		spySleepPrinter := &CountdownOperationSpy{}
+		Countdown(spySleepPrinter, spySleepPrinter)
+
+		want := []string{
+			"sleep",
+			"write",
+			"sleep",
+			"write",
+			"sleep",
+			"write",
+			"sleep",
+			"write",
+		}
+
+		if !reflect.DeepEqual(want, spySleepPrinter.Calls) {
+			t.Errorf("wanted calls %v but got %v", want, spySleepPrinter.Calls)
+		}
+	})
 }
