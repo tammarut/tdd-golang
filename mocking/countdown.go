@@ -69,6 +69,6 @@ func Countdown(out io.Writer, sleeper Sleeper) {
 	fmt.Fprint(out, finalWord)
 }
 func main() {
-	sleeper := &DefaultSleepr{}
+	sleeper := &ConfigurableSleeper{1 * time.Second, time.Sleep}
 	Countdown(os.Stdout, sleeper)
 }
