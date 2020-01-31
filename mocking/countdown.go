@@ -18,9 +18,11 @@ func (s *SpySleeper) Sleep() {
 	s.Calls++
 }
 
+// Now use configurableSleep instead
 type DefaultSleepr struct {
 }
 
+// Now use configurableSleep instead
 func (d *DefaultSleepr) Sleep() {
 	time.Sleep(1 * time.Second)
 }
