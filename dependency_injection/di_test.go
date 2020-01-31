@@ -1,8 +1,9 @@
-package di
+package main
 
-import "testing"
-
-import "bytes"
+import (
+	"bytes"
+	"testing"
+)
 
 func TestGreet(t *testing.T) {
 	buffer := bytes.Buffer{}
