@@ -1,4 +1,4 @@
-package main
+package hello
 
 const frenchHelloPrefix = "Bonjour "
 const spanishHelloPrefix = "Hola "
@@ -16,14 +16,11 @@ func Hello(name, language string) string {
 func greetingPrefix(language string) (prefix string) {
 	switch language {
 	case spanish:
-		prefix = spanishHelloPrefix	
+		prefix = spanishHelloPrefix
 	case french:
 		prefix = frenchHelloPrefix
 	default:
 		prefix = englishHelloPrefix
 	}
 	return
-}
-
-func main() {
 }
