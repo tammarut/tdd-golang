@@ -1,10 +1,10 @@
-package server
+package httpserver
 
-import "testing"
-
-import "net/http"
-
-import "net/http/httptest"
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
 
 func TestGETPlayers(t *testing.T) {
 	t.Run("returns Pepper's score", func(t *testing.T) {
@@ -20,4 +20,5 @@ func TestGETPlayers(t *testing.T) {
 			t.Errorf("got %q, want %q", got, want)
 		}
 	})
+
 }

@@ -1,11 +1,10 @@
-package server
+package httpserver
 
 import (
 	"fmt"
 	"net/http"
-	"net/http/httptest"
 )
 
-func PlayerServer(w *httptest.ResponseRecorder, r *http.Request) {
+func PlayerServer(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "20")
 }
