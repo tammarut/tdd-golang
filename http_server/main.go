@@ -10,6 +10,8 @@ type SaberScores struct{}
 func (s *SaberScores) GetPlayerScore(name string) int {
 	return 100
 }
+func (s *SaberScores) RecordWin(name string) {
+}
 
 func main() {
 	saber := SaberScores{}

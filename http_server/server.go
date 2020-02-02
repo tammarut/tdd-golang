@@ -7,10 +7,12 @@ import (
 )
 
 type StubPlayerStore struct {
-	scores map[string]int
+	scores   map[string]int
+	winCalls []string
 }
 type PlayerStore interface {
 	GetPlayerScore(name string) int
+	RecordWin(name string)
 }
 
 type PlayerServer struct {
@@ -30,7 +32,12 @@ func (s *StubPlayerStore) GetPlayerScore(name string) int {
 	scores := s.scores[name]
 	return scores
 }
+func (s *StubPlayerStore) RecordWin(name string) {
+	s.winCalls = append(s.winCalls, name)
+}
+
 func (p *PlayerServer) processWin(w http.ResponseWriter) {
+	p.store.RecordWin("Bob")
 	w.WriteHeader(http.StatusAccepted)
 }
 
