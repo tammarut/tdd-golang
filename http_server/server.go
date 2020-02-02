@@ -22,7 +22,7 @@ type PlayerServer struct {
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
-		p.processWin(w)
+		p.processWin(w, r)
 	case http.MethodGet:
 		p.showScore(w, r)
 	}
@@ -36,8 +36,9 @@ func (s *StubPlayerStore) RecordWin(name string) {
 	s.winCalls = append(s.winCalls, name)
 }
 
-func (p *PlayerServer) processWin(w http.ResponseWriter) {
-	p.store.RecordWin("Bob")
+func (p *PlayerServer) processWin(w http.ResponseWriter, r *http.Request) {
+	player := strings.TrimPrefix(r.URL.Path, "/players/")
+	p.store.RecordWin(player)
 	w.WriteHeader(http.StatusAccepted)
 }
 
