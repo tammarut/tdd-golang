@@ -6,10 +6,6 @@ import (
 	"strings"
 )
 
-type StubPlayerStore struct {
-	scores   map[string]int
-	winCalls []string
-}
 type PlayerStore interface {
 	GetPlayerScore(name string) int
 	RecordWin(name string)
@@ -28,14 +24,6 @@ func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		p.showScore(w, r, player)
 	}
-}
-
-func (s *StubPlayerStore) GetPlayerScore(name string) int {
-	scores := s.scores[name]
-	return scores
-}
-func (s *StubPlayerStore) RecordWin(name string) {
-	s.winCalls = append(s.winCalls, name)
 }
 
 func (p *PlayerServer) processWin(w http.ResponseWriter, r *http.Request, player string) {
