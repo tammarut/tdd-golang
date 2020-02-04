@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -104,6 +105,11 @@ func TestRecordingWinsAndRetrievingThem(t *testing.T) {
 	assertResponseBody(t, response.Body.String(), "3")
 }
 
+type Player struct {
+	Name string
+	Win  int
+}
+
 func TestLeague(t *testing.T) {
 	store := StubPlayerStore{}
 	server := NewPlayerServer(&store)
@@ -113,6 +119,12 @@ func TestLeague(t *testing.T) {
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
+
+		var got []Player
+		err := json.NewDecoder(response.Body).Decode(&got)
+		if err != nil {
+			t.Fatalf("Unable to parse response from server %q into slice of Player, '%v'", response.Body, err)
+		}
 
 		assertStatus(t, response.Code, http.StatusOK)
 	})
