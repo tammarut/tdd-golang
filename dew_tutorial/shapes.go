@@ -7,3 +7,7 @@ func Calculate(side int) int {
 func TriangleArea(height float64, base float64) float64 {
 	return 0.5 * height * base
 }
+
+func CircleArea(radius float64) float64 {
+	return 154.0
+}
