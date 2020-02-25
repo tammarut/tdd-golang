@@ -3,7 +3,8 @@ package tutorial
 import "testing"
 
 func TestSquare(t *testing.T) {
-	actual := Calculate(8)
+	box := Square{side: 8}
+	actual := box.CalculateArea()
 	expected := 64
 
 	if expected != actual {
@@ -12,7 +13,8 @@ func TestSquare(t *testing.T) {
 }
 
 func TestTriangle(t *testing.T) {
-	actual := TriangleArea(2.0, 5.0)
+	triangle := Triangle{2.0, 5.0}
+	actual := triangle.CalculateArea()
 	expected := 5.0
 
 	if expected != actual {
@@ -21,7 +23,8 @@ func TestTriangle(t *testing.T) {
 }
 
 func TestCircle(t *testing.T) {
-	actual := CircleArea(7.0)
+	ball := Circle{7.0}
+	actual := ball.CalculateArea()
 	expected := 147.0
 
 	if expected != actual {
