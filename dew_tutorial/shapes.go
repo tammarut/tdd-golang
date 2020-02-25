@@ -1,5 +1,8 @@
 package tutorial
 
+type Shape interface {
+	CalculateArea() float64
+}
 type Square struct {
 	side float64
 }
