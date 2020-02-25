@@ -1,7 +1,7 @@
 package tutorial
 
 type Square struct {
-	side int
+	side float64
 }
 type Triangle struct {
 	height float64
@@ -12,7 +12,7 @@ type Circle struct {
 	radius float64
 }
 
-func (s Square) CalculateArea() int {
+func (s Square) CalculateArea() float64 {
 	return s.side * s.side
 }
 
