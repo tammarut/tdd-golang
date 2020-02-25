@@ -22,9 +22,9 @@ func TestTriangle(t *testing.T) {
 
 func TestCircle(t *testing.T) {
 	actual := CircleArea(7.0)
-	expected := 154.0
+	expected := 147.0
 
 	if expected != actual {
-		t.Errorf("expected %f but actual %f", expected, actual)
+		t.Errorf("expected %.2f but actual %.2f", expected, actual)
 	}
 }

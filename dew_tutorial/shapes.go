@@ -9,5 +9,5 @@ func TriangleArea(height float64, base float64) float64 {
 }
 
 func CircleArea(radius float64) float64 {
-	return 154.0
+	return 22 / 7 * radius * radius
 }
