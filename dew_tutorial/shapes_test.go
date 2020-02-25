@@ -12,10 +12,10 @@ func TestSquare(t *testing.T) {
 }
 
 func TestTriangle(t *testing.T) {
-	actual := TriangleArea(2, 5)
-	expected := 12
+	actual := TriangleArea(2.0, 5.0)
+	expected := 5.0
 
 	if expected != actual {
-		t.Errorf("expected %d but actual %d", expected, actual)
+		t.Errorf("expected %f but actual %f", expected, actual)
 	}
 }
