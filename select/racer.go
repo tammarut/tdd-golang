@@ -1,7 +1,9 @@
 package racer
 
 import (
+	"fmt"
 	"net/http"
+	"time"
 )
 
 // 👉Racer(original)
@@ -25,12 +27,20 @@ import (
 // }
 
 // 👉Racer(Select)
-func Racer(urlA, urlB string) (winner string) {
+var tenSecondTimeout = 10 * time.Second
+
+func Racer(urlA, urlB string) (winner string, err error) {
+	return ConfigurableRacer(urlA, urlB, tenSecondTimeout)
+}
+
+func ConfigurableRacer(urlA, urlB string, timeout time.Duration) (winner string, err error) {
 	select {
 	case <-ping(urlA):
-		return urlA
+		return urlA, nil
 	case <-ping(urlB):
-		return urlB
+		return urlB, nil
+	case <-time.After(timeout):
+		return "", fmt.Errorf("⏰Time out waiting for %s and %s", urlA, urlB)
 	}
 }
 
