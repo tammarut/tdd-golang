@@ -5,6 +5,16 @@ import (
 	"testing"
 )
 
+type Person struct {
+	Name    string
+	Profile Profile
+}
+
+type Profile struct {
+	Age  int
+	City string
+}
+
 func TestWalk(t *testing.T) {
 
 	cases := []struct {
@@ -29,6 +39,25 @@ func TestWalk(t *testing.T) {
 				"London",
 			},
 			[]string{"Chris Array", "London"},
+		},
+		{
+			"Struct with non string field",
+			struct {
+				Name string
+				Age  int
+			}{
+				"Jo",
+				33,
+			},
+			[]string{"Jo"},
+		},
+		{
+			"Nested fieds",
+			Person{
+				"Aek",
+				Profile{33, "London"},
+			},
+			[]string{"Aek", "London"},
 		},
 	}
 

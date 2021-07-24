@@ -9,6 +9,12 @@ func walk(x interface{}, function func(input string)) {
 
 	for i := 0; i < value.NumField(); i++ {
 		field := value.Field(i)
-		function(field.String())
+
+		switch field.Kind() {
+		case reflect.String:
+			function(field.String())
+		case reflect.Struct:
+			walk(field.Interface(), function)
+		}
 	}
 }
