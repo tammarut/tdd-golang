@@ -7,17 +7,22 @@ import (
 func walk(x interface{}, function func(input string)) {
 	value := getValue(x)
 
+	numberOfValues := 0
+	var getField func(int) reflect.Value
+
 	switch value.Kind() {
-	case reflect.Struct:
-		for i := 0; i < value.NumField(); i++ {
-			walk(value.Field(i).Interface(), function)
-		}
-	case reflect.Slice:
-		for i := 0; i < value.Len(); i++ {
-			walk(value.Index(i).Interface(), function)
-		}
 	case reflect.String:
 		function(value.String())
+	case reflect.Struct:
+		numberOfValues = value.NumField()
+		getField = value.Field
+	case reflect.Slice:
+		numberOfValues = value.Len()
+		getField = value.Index
+	}
+
+	for i := 0; i < numberOfValues; i++ {
+		walk(getField(i).Interface(), function)
 	}
 }
 
