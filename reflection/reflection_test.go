@@ -135,6 +135,23 @@ func TestWalk(t *testing.T) {
 		}
 	})
 
+	t.Run("Function", func(t *testing.T) {
+		function := func() (Profile, Profile) {
+			return Profile{33, "Ki"}, Profile{34, "Bom"}
+		}
+
+		var got []string
+		want := []string{"Ki", "Bom"}
+
+		walk(function, func(input string) {
+			got = append(got, input)
+		})
+
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("want %q, but got %q", want, got)
+		}
+	})
+
 }
 
 func assertContains(t testing.TB, got []string, needle string) {
