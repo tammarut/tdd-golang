@@ -14,20 +14,10 @@ type Store interface {
 	Cancel()
 }
 
-type StubStore struct {
-	response string
-}
-
 type SpyStore struct {
 	response  string
 	cancelled bool
-}
-
-func (stub *StubStore) Fetch() string {
-	time.Sleep(200 * time.Millisecond)
-	return stub.response
-}
-func (stub *StubStore) Cancel() {
+	t         *testing.T
 }
 
 func (stub *SpyStore) Fetch() string {
@@ -37,6 +27,20 @@ func (stub *SpyStore) Fetch() string {
 
 func (stub *SpyStore) Cancel() {
 	stub.cancelled = true
+}
+
+func (stub *SpyStore) assertWasCancelled() {
+	stub.t.Helper()
+	if !stub.cancelled {
+		stub.t.Error("spyStore was not told to cancel")
+	}
+}
+
+func (stub *SpyStore) assertWasOK() {
+	stub.t.Helper()
+	if stub.cancelled {
+		stub.t.Error("spyStore should not have cacelled the store")
+	}
 }
 
 func Server(store Store) http.HandlerFunc {
@@ -60,23 +64,9 @@ func Server(store Store) http.HandlerFunc {
 }
 
 func TestServer(t *testing.T) {
-	t.Run("Work normally", func(t *testing.T) {
-		data := "Hello"
-		stubStore := &StubStore{data}
-		server := Server(stubStore)
-		request := httptest.NewRequest(http.MethodGet, "/", nil)
-		response := httptest.NewRecorder()
-
-		server.ServeHTTP(response, request)
-
-		if response.Body.String() != data {
-			t.Errorf(`want %s, got %s`, response.Body.String(), data)
-		}
-	})
-
 	t.Run("happy path that returns data from spyStore", func(t *testing.T) {
 		data := "Hello happy"
-		spyStore := &SpyStore{response: data}
+		spyStore := &SpyStore{response: data, t: t}
 		server := Server(spyStore)
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
 		response := httptest.NewRecorder()
@@ -87,15 +77,12 @@ func TestServer(t *testing.T) {
 			t.Errorf(`want %s, got %s`, response.Body.String(), data)
 		}
 
-		if spyStore.cancelled {
-			t.Error("it should not have cacelled the store")
-		}
-
+		spyStore.assertWasOK()
 	})
 
 	t.Run("tells store to cancel work if request is cancelled", func(t *testing.T) {
 		data := "Hello"
-		spyStore := &SpyStore{response: data}
+		spyStore := &SpyStore{response: data, t: t}
 		server := Server(spyStore)
 
 		request := httptest.NewRequest(http.MethodGet, "/", nil)
@@ -106,8 +93,6 @@ func TestServer(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
-		if !spyStore.cancelled {
-			t.Error("spyStore was not told to cancel")
-		}
+		spyStore.assertWasCancelled()
 	})
 }
