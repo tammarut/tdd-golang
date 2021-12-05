@@ -1,4 +1,4 @@
-package roman_numerals
+package main
 
 import (
 	"fmt"
@@ -6,6 +6,9 @@ import (
 	"testing"
 )
 
+/*
+  👍 My Solution
+*/
 // Old soulution
 // func ConvertToRoman(arabic int) string {
 // 	var result strings.Builder
@@ -26,12 +29,26 @@ import (
 // 	return result.String()
 // }
 
+// New soulution
 type RomanNumeral struct {
 	Value  int
 	Symbol string
 }
 
-var allRomanNumerals = []RomanNumeral{
+type RomanNumerals []RomanNumeral
+
+// func (r RomanNumerals) ValueOf(symbol string) int {
+func (r RomanNumerals) ValueOf(symbols ...byte) int {
+	symbol := string(symbols)
+	for _, s := range r {
+		if s.Symbol == symbol {
+			return s.Value
+		}
+	}
+	return 0
+}
+
+var AllRomanNumerals = RomanNumerals{
 	{1000, "M"},
 	{900, "CM"},
 	{500, "D"},
@@ -50,7 +67,7 @@ var allRomanNumerals = []RomanNumeral{
 func ConvertToRoman(arabic int) string {
 	var result strings.Builder
 
-	for _, numeral := range allRomanNumerals {
+	for _, numeral := range AllRomanNumerals {
 		for arabic >= numeral.Value {
 			result.WriteString(numeral.Symbol)
 			arabic -= numeral.Value
@@ -60,6 +77,9 @@ func ConvertToRoman(arabic int) string {
 	return result.String()
 }
 
+/*
+  🧪 My Test
+*/
 type Roman struct {
 	Arabic int
 	Roman  string
