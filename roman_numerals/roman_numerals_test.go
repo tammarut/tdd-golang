@@ -37,7 +37,6 @@ type RomanNumeral struct {
 
 type RomanNumerals []RomanNumeral
 
-// func (r RomanNumerals) ValueOf(symbol string) int {
 func (r RomanNumerals) ValueOf(symbols ...byte) int {
 	symbol := string(symbols)
 	for _, s := range r {
@@ -46,6 +45,19 @@ func (r RomanNumerals) ValueOf(symbols ...byte) int {
 		}
 	}
 	return 0
+}
+
+func (romanNumerals RomanNumerals) Exists(symbols ...byte) bool {
+	inputSymbol := string(symbols)
+
+	for _, romanNumeral := range romanNumerals {
+		if romanNumeral.Symbol != inputSymbol {
+			continue
+		}
+		return true
+	}
+
+	return false
 }
 
 var AllRomanNumerals = RomanNumerals{
