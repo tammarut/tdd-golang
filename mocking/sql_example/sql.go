@@ -37,7 +37,3 @@ func OpenDB(user, password, address, db string) (*sql.DB, error) {
 	connection := fmt.Sprintf("%s:%s@%s/%s", user, password, address, db)
 	return SQLOpen("mysql", connection)
 }
-
-/*
-➜ I need to mock a method on a type (struct/class)
-*/
