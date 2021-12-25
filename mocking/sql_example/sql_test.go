@@ -40,7 +40,9 @@ func TestOpenDB(t *testing.T) {
 
 	for _, subtest := range subtests {
 		t.Run(subtest.name, func(t *testing.T) {
-			_, err := sql_example.OpenDB(subtest.u, subtest.p, subtest.a, subtest.db, subtest.sqlOpener)
+			// _, err := sql_example.OpenDB(subtest.u, subtest.p, subtest.a, subtest.db, subtest.sqlOpener) // ⇠ Higher order function
+			sql_example.SQLOpen = subtest.sqlOpener // ⇠ Monkey patching
+			_, err := sql_example.OpenDB(subtest.u, subtest.p, subtest.a, subtest.db)
 			if !errors.Is(err, subtest.expectedErr) {
 				t.Errorf("Expected error (%v), got error (%v)", subtest.expectedErr, err)
 			}
